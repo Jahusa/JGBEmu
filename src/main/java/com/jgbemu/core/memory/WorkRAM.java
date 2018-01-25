@@ -19,4 +19,9 @@ public class WorkRAM implements Memory {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public byte[] getRamStack() {
+		return workRam;
+	}
 }

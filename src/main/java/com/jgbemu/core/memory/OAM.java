@@ -24,6 +24,11 @@ public class OAM implements Memory{
 	}
 
 	@Override
+	public byte[] getRamStack() {
+		return oam;
+	}
+
+	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder(oam.length * 2);
 		for (int i = 0; i < oam.length; i++) {

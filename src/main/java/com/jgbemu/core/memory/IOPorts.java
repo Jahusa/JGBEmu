@@ -24,6 +24,11 @@ public class IOPorts implements Memory{
 	}
 
 	@Override
+	public byte[] getRamStack() {
+		return ioPorts;
+	}
+
+	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder(ioPorts.length * 2);
 		for (int i = 0; i < ioPorts.length; i++) {

@@ -8,6 +8,7 @@ public class ROM implements Memory{
 	//private byte[] romBank0;
 	//private byte[] romBankSwitchable;
 	private final short offset = 0x0000;
+	private byte[] romBanks;
 	private byte[] rom;
 
 	public ROM(String romPath) {
@@ -17,6 +18,8 @@ public class ROM implements Memory{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+		//TODO: create ROM - Banks
 	}
 
 	@Override
@@ -29,5 +32,15 @@ public class ROM implements Memory{
 	public void writeAddress(short address, byte data) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public byte[] getRamStack() {
+		//TODO: ROM-Bank
+		return rom;
+	}
+
+	public void switchBank(byte bank) {
+
 	}
 }

@@ -6,6 +6,9 @@ public class ExternalRAM implements Memory {
 	
 	public ExternalRAM() {
 		externalRam = new byte[0x8000];
+		for (int i = 0; i < externalRam.length; i++) {
+			externalRam[i] = 0x00;
+		}
 	}
 
 	@Override
@@ -20,4 +23,8 @@ public class ExternalRAM implements Memory {
 
 	}
 
+	@Override
+	public byte[] getRamStack() {
+		return externalRam;
+	}
 }

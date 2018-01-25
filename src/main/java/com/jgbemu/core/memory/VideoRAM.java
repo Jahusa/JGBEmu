@@ -19,4 +19,9 @@ public class VideoRAM implements Memory {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public byte[] getRamStack() {
+		return videoRam;
+	}
 }
