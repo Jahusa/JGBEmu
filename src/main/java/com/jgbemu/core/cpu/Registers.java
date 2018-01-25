@@ -1,6 +1,15 @@
 package com.jgbemu.core.cpu;
 
 class Registers {
+	public static int REGISTER_A = 1;
+	public static int REGISTER_F = 2;
+	public static int REGISTER_B = 3;
+	public static int REGISTER_C = 4;
+	public static int REGISTER_D = 5;
+	public static int REGISTER_E = 6;
+	public static int REGISTER_H = 7;
+	public static int REGISTER_L = 8;
+
 	private byte registerA;
 	private byte registerF;
 	private byte registerB;
@@ -23,6 +32,45 @@ class Registers {
 		this.registerL = 0;
 		this.registerSP = 0;
 		this.registerPC = 0;
+	}
+
+	public void putRegister(int register2, byte register1) {
+		switch (register2) {
+			case 1:
+				this.registerA = register1;
+				break;
+
+			case 2:
+				this.registerF = register1;
+				break;
+
+			case 3:
+				this.registerB = register1;
+				break;
+
+			case 4:
+				this.registerC = register1;
+				break;
+
+			case 5:
+				this.registerD = register1;
+				break;
+
+			case 6:
+				this.registerE = register1;
+				break;
+
+			case 7:
+				this.registerH = register1;
+				break;
+
+			case 8:
+				this.registerL = register1;
+				break;
+
+			default:
+				break;
+		}
 	}
 
 	public byte getRegisterA() {

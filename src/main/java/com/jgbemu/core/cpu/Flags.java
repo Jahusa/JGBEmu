@@ -5,6 +5,8 @@ public class Flags {
 	private byte N;
 	private byte H;
 	private byte C;
+
+	private byte flags;
 	
 	public Flags() {
 		this.Z = (byte) 0x10000000;
@@ -12,4 +14,6 @@ public class Flags {
 		this.H = (byte) 0x00100000;
 		this.C = (byte) 0x00010000;
 	}
+
+
 }
