@@ -1,10 +1,10 @@
 package com.jgbemu.core.memory;
 
 public class InterruptEnableRegister implements IMemory {
-    byte interruptEnableRegister;
+    private byte interruptEnableRegister;
 
     public InterruptEnableRegister() {
-
+        interruptEnableRegister = 0x00;
     }
 
     @Override

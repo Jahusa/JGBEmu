@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 
 public class ROM implements IMemory {
-	private byte[][] romBanks;
+	private byte selectedBank;
 	private byte[] rom;
 
 	public ROM(String romPath) {

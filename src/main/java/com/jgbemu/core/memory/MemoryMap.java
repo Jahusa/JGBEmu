@@ -10,17 +10,22 @@ public class MemoryMap {
     private HighRAM highRAM;
     private InterruptEnableRegister interruptEnableRegister;
 
-    public MemoryMap() {
-        rom = new ROM("");
-        videoRAM = new VideoRAM();
-
+    public MemoryMap(String romPath) {
+        //this.rom = new ROM(romPath);
+        this.videoRAM = new VideoRAM();
+        this.externalRAM = new ExternalRAM();
+        this.workRAM = new WorkRAM();
+        this.oam = new OAM();
+        this.ioPorts = new IOPorts();
+        this.highRAM = new HighRAM();
+        this.interruptEnableRegister = new InterruptEnableRegister();
     }
 
     public byte getDataFromAddress(short address) {
-        if (address >= (short) 0x0000 && address <= (short) 0x4FFF) {
+        if (address >= (short) 0x0000 && address <= (short) 0x3FFF) {
             System.out.println("rom data bank 0");
-        } else if (address >= (short) 0x4000 && address <= (short) 0x9FFF) {
-            System.out.println("vram data bank an");
+        } else if (address >= (short) 0x4000 && address <= (short) 0x7FFF) {
+            System.out.println("rom data bank n");
         } else if (address >= (short) 0x8000 && address <= (short) 0x9FFF) {
             System.out.println("vram data");
         } else if (address >= (short) 0xA000 && address <= (short) 0xBFFF) {

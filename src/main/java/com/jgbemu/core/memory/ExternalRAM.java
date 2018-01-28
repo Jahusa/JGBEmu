@@ -1,11 +1,10 @@
 package com.jgbemu.core.memory;
 
 public class ExternalRAM implements IMemory {
-	private final short offset = (short) 0xA000;
 	private byte[] externalRam;
 	
 	public ExternalRAM() {
-		externalRam = new byte[0x8000];
+		externalRam = new byte[0x1000];
 		for (int i = 0; i < externalRam.length; i++) {
 			externalRam[i] = 0x00;
 		}
