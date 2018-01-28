@@ -1,6 +1,6 @@
 package com.jgbemu.core.memory;
 
-public class WorkRAM implements Memory {
+public class WorkRAM implements IMemory {
 	private final short offset = (short) 0xC000;
 	private byte[] workRam;
 	

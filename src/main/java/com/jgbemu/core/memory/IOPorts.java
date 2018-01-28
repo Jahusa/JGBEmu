@@ -1,6 +1,6 @@
 package com.jgbemu.core.memory;
 
-public class IOPorts implements Memory{
+public class IOPorts implements IMemory {
 	private final short offset = (short) 0xFE00;
 	private byte[] ioPorts;
 	

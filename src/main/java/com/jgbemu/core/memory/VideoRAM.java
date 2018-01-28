@@ -1,6 +1,6 @@
 package com.jgbemu.core.memory;
 
-public class VideoRAM implements Memory {
+public class VideoRAM implements IMemory {
 	private final short offset = (short) 0x8000;
 	private byte[] videoRam;
 	

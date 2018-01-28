@@ -1,6 +1,6 @@
 package com.jgbemu.core.memory;
 
-public class InterruptEnableRegister implements Memory {
+public class InterruptEnableRegister implements IMemory {
     byte interruptEnableRegister;
 
     public InterruptEnableRegister() {

@@ -1,6 +1,6 @@
 package com.jgbemu.core.memory;
 
-public class HighRAM implements Memory{
+public class HighRAM implements IMemory {
 	private byte[] highRAM;
 	
 	public HighRAM() {

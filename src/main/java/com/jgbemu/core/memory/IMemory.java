@@ -1,6 +1,6 @@
 package com.jgbemu.core.memory;
 
-interface Memory {
+interface IMemory {
 	public byte readAddress(short address);
 	public void writeAddress(short address, byte data);
 	public byte[] getRamStack();

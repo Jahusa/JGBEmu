@@ -1,6 +1,6 @@
 package com.jgbemu.core.memory;
 
-public class OAM implements Memory{
+public class OAM implements IMemory {
 	private final short offset = (short) 0xFE00;
 	private byte[] oam;
 	
