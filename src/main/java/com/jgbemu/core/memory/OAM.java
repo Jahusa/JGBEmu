@@ -1,7 +1,6 @@
 package com.jgbemu.core.memory;
 
 public class OAM implements IMemory {
-	private final short offset = (short) 0xFE00;
 	private byte[] oam;
 	
 	public OAM() {
@@ -30,6 +29,7 @@ public class OAM implements IMemory {
 
 	@Override
 	public String toString() {
+		/*
 		StringBuilder sb = new StringBuilder(oam.length * 2);
 		for (int i = 0; i < oam.length; i++) {
 			sb.append(Integer.toHexString(i & offset) + ": ");
@@ -37,5 +37,7 @@ public class OAM implements IMemory {
 			sb.append("\n");
 		}
 		return sb.toString();
+		*/
+		return "";
 	}
 }

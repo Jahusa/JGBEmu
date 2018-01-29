@@ -1,15 +1,6 @@
 package com.jgbemu.core.cpu;
 
 class Registers {
-	public static int REGISTER_A = 1;
-	public static int REGISTER_F = 2;
-	public static int REGISTER_B = 3;
-	public static int REGISTER_C = 4;
-	public static int REGISTER_D = 5;
-	public static int REGISTER_E = 6;
-	public static int REGISTER_H = 7;
-	public static int REGISTER_L = 8;
-
 	private byte registerA;
 	private byte registerF;
 	private byte registerB;
@@ -33,159 +24,122 @@ class Registers {
 		this.registerSP = 0;
 		this.registerPC = 0;
 	}
+	
+	//TODO fix byte convertion -> little endian
 
-	public void putRegister(int register2, byte register1) {
-		switch (register2) {
-			case 1:
-				this.registerA = register1;
-				break;
-
-			case 2:
-				this.registerF = register1;
-				break;
-
-			case 3:
-				this.registerB = register1;
-				break;
-
-			case 4:
-				this.registerC = register1;
-				break;
-
-			case 5:
-				this.registerD = register1;
-				break;
-
-			case 6:
-				this.registerE = register1;
-				break;
-
-			case 7:
-				this.registerH = register1;
-				break;
-
-			case 8:
-				this.registerL = register1;
-				break;
-
-			default:
-				break;
-		}
-	}
-
-	public byte getRegisterA() {
+	public byte readA() {
 		return registerA;
 	}
 
-	public byte getRegisterF() {
+	public byte readF() {
 		return registerF;
 	}
 
-	public short getRegisterAF() {
-		return (short)(((registerA & 0xFF) << 8) | (registerF & 0xFF));
-	}
-
-	public byte getRegisterB() {
+	public byte readB() {
 		return registerB;
 	}
 
-	public byte getRegisterC() {
+	public byte readC() {
 		return registerC;
 	}
 
-	public short getRegisterBC() {
-		return (short) (((registerB & 0xFF) << 8) | (registerC & 0xFF));
-	}
-
-	public byte getRegisterD() {
+	public byte readD() {
 		return registerD;
 	}
 
-	public byte getRegisterE() {
+	public byte readE() {
 		return registerE;
 	}
 
-	public short getRegisterDE() {
-		return (short) (((registerD & 0xFF) << 8) | (registerE & 0xFF));
-	}
-
-	public byte getRegisterH() {
+	public byte readH() {
 		return registerH;
 	}
 
-	public byte getRegisterL() {
+	public byte readL() {
 		return registerL;
 	}
 
-	public short getRegisterHL() {
+	public short readAF() {
+		return (short)(((registerA & 0xFF) << 8) | (registerF & 0xFF));
+	}
+
+	public short readBC() {
+		return (short) (((registerB & 0xFF) << 8) | (registerC & 0xFF));
+	}
+
+	public short readDE() {
+		return (short) (((registerD & 0xFF) << 8) | (registerE & 0xFF));
+	}
+
+	public short readHL() {
 		return (short) (((registerH & 0xFF) << 8) | (registerL & 0xFF));
 	}
 
-	public short getRegisterSP() {
+	public short readSP() {
 		return registerSP;
 	}
 
-	public short getRegisterPC() {
+	public short readPC() {
 		return registerPC;
 	}
 
-	public void setRegisterA(byte registerA) {
+	public void writeA(byte data) {
 		this.registerA = registerA;
 	}
 
-	public void setRegisterF(byte registerF) {
+	public void writeF(byte data) {
 		this.registerF = registerF;
 	}
-	
-	public void setRegisterAF(short registerAF) {
-		this.registerA = (byte)(registerAF & 0xff);
-		this.registerF = (byte)((registerAF >> 8) & 0xff);
-	}
 
-	public void setRegisterB(byte registerB) {
+	public void writeB(byte data) {
 		this.registerB = registerB;
 	}
 
-	public void setRegisterC(byte registerC) {
+	public void writeC(byte data) {
 		this.registerC = registerC;
 	}
-	
-	public void setRegisterBC(short registerBC) {
-		this.registerB = (byte)(registerBC & 0xff);
-		this.registerC = (byte)((registerBC >> 8) & 0xff);
-	}
 
-	public void setRegisterD(byte registerD) {
+	public void writeD(byte data) {
 		this.registerD = registerD;
 	}
 
-	public void setRegisterE(byte registerE) {
+	public void writeE(byte data) {
 		this.registerE = registerE;
 	}
-	
-	public void setRegisterDE(short registerDE) {
-		this.registerD = (byte)(registerDE & 0xff);
-		this.registerE = (byte)((registerDE >> 8) & 0xff);
-	}
 
-	public void setRegisterH(byte registerH) {
+	public void writeH(byte data) {
 		this.registerH = registerH;
 	}
 
-	public void setRegisterL(byte registerL) {
+	public void writeL(byte data) {
 		this.registerL = registerL;
 	}
-	
-	public void setRegisterHL(short registerHL) {
-		this.registerH = (byte)(registerHL & 0xff);
-		this.registerL = (byte)((registerHL >> 8) & 0xff);
+
+	public void writeAF(short data) {
+		this.registerA = (byte)(data & 0xff);
+		this.registerF = (byte)((data >> 8) & 0xff);
 	}
 
-	public void setRegisterSP(short registerSP) {
+	public void writeBC(short data) {
+		this.registerB = (byte)(data & 0xff);
+		this.registerC = (byte)((data >> 8) & 0xff);
+	}
+
+	public void writeDE(short data) {
+		this.registerD = (byte)(data & 0xff);
+		this.registerE = (byte)((data >> 8) & 0xff);
+	}
+	
+	public void writeHL(short data) {
+		this.registerH = (byte)(data & 0xff);
+		this.registerL = (byte)((data >> 8) & 0xff);
+	}
+
+	public void writeSP(short registerSP) {
 		this.registerSP = registerSP;
 	}
 
-	public void setRegisterPC(short registerPC) {
+	public void writePC(short registerPC) {
 		this.registerPC = registerPC;
 	}
 }

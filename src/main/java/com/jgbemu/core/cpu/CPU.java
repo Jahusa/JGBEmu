@@ -1,14 +1,16 @@
 package com.jgbemu.core.cpu;
 
+import com.jgbemu.core.memory.MemoryMap;
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 
 public class CPU {
 	private int clockrate;
 	private long cycles;
+
 	private Registers register;
-	private OPCode[] opcodes;
-	private OPCode[] prefixCB;
+    private Flags flags;
+	private MemoryMap memoryMap;
 
 	//private boolean vramAccessable;
 	//private boolean oamAccessable;
@@ -16,89 +18,288 @@ public class CPU {
 	public CPU() {
 		super();
 		this.clockrate = 4*1024*1024;
+		this.cycles = 0;
+
 		this.register = new Registers();
-		
-		this.opcodes = new OPCode[256];
-		opcodes[0] = new OPCode((byte)0x00, "LDD", (byte)0x00, (byte)0x00, (byte)3, new byte[]{2,2}, new char[]{'2','2','2','1'});
-		
-		this.prefixCB = new OPCode[256];
-		prefixCB[0] = new OPCode((byte)0x00, "LDD", (byte)0x00, (byte)0x00, (byte)3, new byte[]{2,2}, new char[]{'2','2','2','1'});
+		this.flags = new Flags();
+		this.memoryMap = new MemoryMap("");
 	}
 	
 	/*public void runInstruction() {
 		double startTime = System.nanoTime();
 	}*/
 	
-	public void executeOpcode(@NotNull byte opcode, @Nullable short operand1, @Nullable short operand2) {
+	public void executeOpcode(@NotNull byte opcode, @Nullable byte operand1, @Nullable byte operand2) {
 		switch (opcode) {
+		    // 0x06 - 0x2E: ld_nn_n
 			case 0x06:
+			    register.writeB(operand1);
+			    cycles += 4;
+                break;
 			case 0x0E:
+                register.writeC(operand1);
+                cycles += 4;
+                break;
 			case 0x16:
+                register.writeD(operand1);
+                cycles += 4;
+                break;
 			case 0x1E:
+                register.writeE(operand1);
+                cycles += 4;
+                break;
 			case 0x26:
+                register.writeH(operand1);
+                cycles += 4;
+                break;
 			case 0x2E:
-				ld_nn_n(opcode, (byte) operand1);
-				break;
-			case 0x7F:
-			case 0x78:
-			case 0x79:
-			case 0x7A:
-			case 0x7B:
-			case 0x7C:
-			case 0x7D:
-			case 0x7E:
-			case 0x40:
-			case 0x41:
-			case 0x42:
-			case 0x43:
-			case 0x44:
-			case 0x45:
-			case 0x46:
-			case 0x48:
-			case 0x49:
-			case 0x4A:
-			case 0x4B:
-			case 0x4C:
-			case 0x4D:
-			case 0x4E:
-			case 0x50:
-			case 0x51:
-			case 0x52:
-			case 0x53:
-			case 0x54:
-			case 0x55:
-			case 0x56:
-			case 0x58:
-			case 0x59:
-			case 0x5A:
-			case 0x5B:
-			case 0x5C:
-			case 0x5D:
-			case 0x5E:
-			case 0x60:
-			case 0x61:
-			case 0x62:
-			case 0x63:
-			case 0x64:
-			case 0x65:
-			case 0x66:
-			case 0x68:
-			case 0x69:
-			case 0x6A:
-			case 0x6B:
-			case 0x6C:
-			case 0x6D:
-			case 0x6E:
-			case 0x70:
-			case 0x71:
-			case 0x72:
-			case 0x73:
-			case 0x74:
-			case 0x75:
-			case 0x36:
-				ld_r1_r2(opcode);
+                register.writeL(operand1);
+                cycles += 4;
 				break;
 
+			// 0x7F - 0x36: ld_r2_r1
+			case 0x7F:
+			    register.writeA(register.readA());
+                cycles += 4;
+                break;
+			case 0x78:
+                register.writeA(register.readB());
+                cycles += 4;
+                break;
+			case 0x79:
+                register.writeA(register.readC());
+                cycles += 4;
+                break;
+			case 0x7A:
+                register.writeA(register.readD());
+                cycles += 4;
+                break;
+			case 0x7B:
+                register.writeA(register.readE());
+                cycles += 4;
+                break;
+			case 0x7C:
+                register.writeA(register.readH());
+                cycles += 4;
+                break;
+			case 0x7D:
+                register.writeA(register.readL());
+                cycles += 4;
+                break;
+			case 0x7E:
+                register.writeA(memoryMap.readDataFromAddress(register.readHL()));
+                cycles += 8;
+                break;
+			case 0x40:
+                register.writeB(register.readB());
+                cycles += 4;
+                break;
+			case 0x41:
+                register.writeB(register.readC());
+                cycles += 4;
+                break;
+			case 0x42:
+                register.writeB(register.readD());
+                cycles += 4;
+                break;
+			case 0x43:
+                register.writeB(register.readE());
+                cycles += 4;
+                break;
+			case 0x44:
+                register.writeB(register.readH());
+                cycles += 4;
+                break;
+			case 0x45:
+                register.writeB(register.readL());
+                cycles += 4;
+                break;
+			case 0x46:
+                register.writeB(memoryMap.readDataFromAddress(register.readHL()));
+                cycles += 8;
+                break;
+			case 0x48:
+                register.writeC(register.readB());
+                cycles += 4;
+                break;
+			case 0x49:
+                register.writeC(register.readC());
+                cycles += 4;
+                break;
+			case 0x4A:
+                register.writeC(register.readD());
+                cycles += 4;
+                break;
+			case 0x4B:
+                register.writeC(register.readE());
+                cycles += 4;
+                break;
+			case 0x4C:
+                register.writeC(register.readH());
+                cycles += 4;
+                break;
+			case 0x4D:
+                register.writeC(register.readL());
+                cycles += 4;
+                break;
+			case 0x4E:
+                register.writeC(memoryMap.readDataFromAddress(register.readHL()));
+                cycles += 8;
+                break;
+			case 0x50:
+                register.writeD(register.readB());
+                cycles += 4;
+                break;
+			case 0x51:
+                register.writeD(register.readC());
+                cycles += 4;
+                break;
+			case 0x52:
+                register.writeD(register.readD());
+                cycles += 4;
+                break;
+			case 0x53:
+                register.writeD(register.readE());
+                cycles += 4;
+                break;
+			case 0x54:
+                register.writeD(register.readH());
+                cycles += 4;
+                break;
+			case 0x55:
+                register.writeD(register.readL());
+                cycles += 4;
+                break;
+			case 0x56:
+                register.writeD(memoryMap.readDataFromAddress(register.readHL()));
+                cycles += 8;
+                break;
+			case 0x58:
+                register.writeE(register.readB());
+                cycles += 4;
+                break;
+			case 0x59:
+                register.writeE(register.readC());
+                cycles += 4;
+                break;
+			case 0x5A:
+                register.writeE(register.readD());
+                cycles += 4;
+                break;
+			case 0x5B:
+                register.writeE(register.readE());
+                cycles += 4;
+                break;
+			case 0x5C:
+                register.writeE(register.readH());
+                cycles += 4;
+                break;
+			case 0x5D:
+                register.writeE(register.readL());
+                cycles += 4;
+                break;
+			case 0x5E:
+                register.writeE(memoryMap.readDataFromAddress(register.readHL()));
+                cycles += 8;
+                break;
+			case 0x60:
+                register.writeH(register.readB());
+                cycles += 4;
+                break;
+			case 0x61:
+                register.writeH(register.readC());
+                cycles += 4;
+                break;
+			case 0x62:
+                register.writeH(register.readD());
+                cycles += 4;
+                break;
+			case 0x63:
+                register.writeH(register.readE());
+                cycles += 4;
+                break;
+			case 0x64:
+                register.writeH(register.readH());
+                cycles += 4;
+                break;
+			case 0x65:
+                register.writeH(register.readL());
+                cycles += 4;
+                break;
+			case 0x66:
+                register.writeH(memoryMap.readDataFromAddress(register.readHL()));
+                cycles += 8;
+                break;
+			case 0x68:
+                register.writeL(register.readB());
+                cycles += 4;
+                break;
+			case 0x69:
+                register.writeL(register.readC());
+                cycles += 4;
+                break;
+			case 0x6A:
+                register.writeL(register.readD());
+                cycles += 4;
+                break;
+			case 0x6B:
+                register.writeL(register.readE());
+                cycles += 4;
+                break;
+			case 0x6C:
+                register.writeL(register.readH());
+                cycles += 4;
+                break;
+			case 0x6D:
+                register.writeL(register.readL());
+                cycles += 4;
+                break;
+			case 0x6E:
+                register.writeL(memoryMap.readDataFromAddress(register.readHL()));
+                cycles += 8;
+                break;
+			case 0x70:
+			    memoryMap.writeDataFromAddress(register.readHL(), register.readB());
+                cycles += 8;
+                break;
+			case 0x71:
+                memoryMap.writeDataFromAddress(register.readHL(), register.readC());
+                cycles += 8;
+                break;
+			case 0x72:
+                memoryMap.writeDataFromAddress(register.readHL(), register.readD());
+                cycles += 8;
+                break;
+			case 0x73:
+                memoryMap.writeDataFromAddress(register.readHL(), register.readE());
+                cycles += 8;
+                break;
+			case 0x74:
+                memoryMap.writeDataFromAddress(register.readHL(), register.readH());
+                cycles += 8;
+                break;
+			case 0x75:
+                memoryMap.writeDataFromAddress(register.readHL(), register.readL());
+                cycles += 8;
+                break;
+			case 0x36:
+                memoryMap.writeDataFromAddress(register.readHL(), operand1);
+                cycles += 12;
+                break;
+
+            // illegal opcode
+            case (byte) 0xD3:
+            case (byte) 0xDB:
+            case (byte) 0xDD:
+            case (byte) 0xE3:
+            case (byte) 0xE4:
+            case (byte) 0xEB:
+            case (byte) 0xEC:
+            case (byte) 0xED:
+            case (byte) 0xF4:
+            case (byte) 0xFC:
+            case (byte) 0xFD:
+                System.err.println("illegal opcode");
 			default:
 				break;
 		}
@@ -130,7 +331,6 @@ public class CPU {
 			
 		}
 	}*/
-
 	private void NOP(){
 		//TODO: wait for 4 cycles
 	}
@@ -144,27 +344,27 @@ public class CPU {
 	private void ld_nn_n(byte opcode, byte operand) {
 		switch (opcode) {
 			case 0x06:
-				register.setRegisterB(operand);
+				register.writeB(operand);
 				break;
 
 			case 0x0E:
-				register.setRegisterC(operand);
+				register.writeC(operand);
 				break;
 
 			case 0x16:
-				register.setRegisterD(operand);
+				register.writeD(operand);
 				break;
 
 			case 0x1E:
-				register.setRegisterE(operand);
+				register.writeE(operand);
 				break;
 
 			case 0x26:
-				register.setRegisterH(operand);
+				register.writeH(operand);
 				break;
 
 			case 0x2E:
-				register.setRegisterH(operand);
+				register.writeH(operand);
 				break;
 
 			default:

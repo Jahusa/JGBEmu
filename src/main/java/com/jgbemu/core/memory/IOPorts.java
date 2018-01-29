@@ -1,7 +1,6 @@
 package com.jgbemu.core.memory;
 
 public class IOPorts implements IMemory {
-	private final short offset = (short) 0xFE00;
 	private byte[] ioPorts;
 	
 	public IOPorts() {
@@ -26,16 +25,5 @@ public class IOPorts implements IMemory {
 	@Override
 	public byte[] getRamStack() {
 		return ioPorts;
-	}
-
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder(ioPorts.length * 2);
-		for (int i = 0; i < ioPorts.length; i++) {
-			sb.append(Integer.toHexString(i & offset) + ": ");
-			sb.append(String.format("%02x", ioPorts[i]));
-			sb.append("\n");
-		}
-		return sb.toString();
 	}
 }

@@ -1,7 +1,7 @@
 package com.jgbemu.core.memory;
 
 public class WorkRAM implements IMemory {
-	private final short offset = (short) 0xC000;
+	private byte selectedBank;
 	private byte[] workRam;
 	
 	public WorkRAM() {
@@ -17,7 +17,6 @@ public class WorkRAM implements IMemory {
 	@Override
 	public void writeAddress(short address, byte data) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

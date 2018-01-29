@@ -1,7 +1,7 @@
 package com.jgbemu.core.memory;
 
 interface IMemory {
-	public byte readAddress(short address);
-	public void writeAddress(short address, byte data);
-	public byte[] getRamStack();
+	byte readAddress(short address);
+	void writeAddress(short address, byte data);
+	byte[] getRamStack();
 }

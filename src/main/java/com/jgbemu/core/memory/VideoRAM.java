@@ -1,7 +1,6 @@
 package com.jgbemu.core.memory;
 
 public class VideoRAM implements IMemory {
-	private final short offset = (short) 0x8000;
 	private byte[] videoRam;
 	
 	public VideoRAM() {
@@ -17,7 +16,6 @@ public class VideoRAM implements IMemory {
 	@Override
 	public void writeAddress(short address, byte data) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
