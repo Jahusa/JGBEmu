@@ -50,10 +50,11 @@ public class MemoryMap {
             interruptEnableRegister.readAddress((short) 0xFFFF);
         }
 
+        System.err.println("some error");
         return 0x00;
     }
 
-    public void writeDataFromAddress(short address, byte data) {
+    public void writeDataToAddress(short address, byte data) {
         if (address >= (short) 0x0000 && address <= (short) 0x3FFF) {
             rom.writeAddress(address, data);
         } else if (address >= (short) 0x4000 && address <= (short) 0x7FFF) {
@@ -81,6 +82,5 @@ public class MemoryMap {
         } else if (address == (short) 0xFFFF) {
             interruptEnableRegister.writeAddress((short) 0xFFFF, data);
         }
-        //TODO:
     }
 }
