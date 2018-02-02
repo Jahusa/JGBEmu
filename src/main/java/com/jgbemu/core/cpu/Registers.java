@@ -142,4 +142,8 @@ class Registers {
 	public void writePC(short registerPC) {
 		this.registerPC = registerPC;
 	}
+
+	public void increasePC() {
+		this.registerPC += registerPC;
+	}
 }
