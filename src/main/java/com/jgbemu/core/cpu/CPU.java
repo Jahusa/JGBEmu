@@ -470,6 +470,67 @@ public class CPU {
                 cycles += 8;
                 break;
 
+            // 0xE0: ldh_(n)_a
+            case (byte) 0xE0:
+                memoryMap.writeDataToAddress(combineTwoBytes(register.readC(), (byte) 0xFF), register.readA());
+                register.increasePC();
+                cycles += 12;
+                break;
+
+            // 0xF0: ldh_a_(n)
+            case (byte) 0xF0:
+                register.writeA(memoryMap.readDataFromAddress(combineTwoBytes(operand1, (byte) 0xFF)));
+                register.increasePC();
+                cycles += 12;
+                break;
+
+            // 0x01 - 0x31: ld_rr_nn
+            case (byte) 0x01:
+                register.writeBC(combineTwoBytes(operand1, operand2));
+                register.increasePC();
+                cycles += 12;
+                break;
+            case (byte) 0x11:
+                register.writeDE(combineTwoBytes(operand1, operand2));
+                register.increasePC();
+                cycles += 12;
+                break;
+            case (byte) 0x21:
+                register.writeHL(combineTwoBytes(operand1, operand2));
+                register.increasePC();
+                cycles += 12;
+                break;
+            case (byte) 0x31:
+                register.writeSP(combineTwoBytes(operand1, operand2));
+                register.increasePC();
+                cycles += 12;
+                break;
+
+            // 0xF9: ld_sp_hl
+            case (byte) 0xF9:
+                register.writeSP(register.readHL());
+                register.increasePC();
+                cycles += 12;
+                break;
+
+            // 0xF8: ld_hl_sp+1, ldhl_sp+1
+            case (byte) 0xF8:
+                register.writeHL((short) (register.readSP()+operand1));
+
+                if ((register.readSP() & 0xF) + (operand1 & 0xF) > 0xF) {
+                    flags.setHFlags();
+                    register.writeF(flags.getFlags());
+                }
+
+                if ((register.readSP() & 0xFF) + (operand1 & 0xFF) > 0xFF) {
+                    flags.setHFlags();
+                    register.writeF(flags.getFlags());
+                }
+
+                register.increasePC();
+                cycles += 12;
+                break;
+
 
             // illegal opcode
             case (byte) 0xD3:
