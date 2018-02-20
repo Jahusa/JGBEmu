@@ -143,7 +143,7 @@ class Registers {
 		this.registerPC = registerPC;
 	}
 
-	public void increasePC() {
-		this.registerPC += registerPC;
+	public void increasePC(short count) {
+		this.registerPC += count;
 	}
 }
