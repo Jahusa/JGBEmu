@@ -431,10 +431,14 @@ public class CPU {
                 cycles += 16;
                 break;
 
-            // 0xF2: ld_(c)_a, ld_(c)_a
+            // 0xF2 - 0xE2: ld_a_(c), ld_(c)_a
             case (byte) 0xE2:
-            case (byte) 0xF2:
                 register.writeA(memoryMap.readDataFromAddress(combineTwoBytes(register.readC(), (byte) 0xFF)));
+                register.increasePC((short) 2);
+                cycles += 8;
+                break;
+            case (byte) 0xF2:
+                memoryMap.writeDataToAddress(combineTwoBytes(register.readC(), (byte) 0xFF), register.readA());
                 register.increasePC((short) 2);
                 cycles += 8;
                 break;
@@ -522,16 +526,87 @@ public class CPU {
                 flags.resetNFlags();
                 if ((register.readSP() & 0xF) + (operand1 & 0xF) > 0xF) {
                     flags.setHFlags();
-                    register.writeF(flags.getFlags());
                 }
 
                 if ((register.readSP() & 0xFF) + (operand1 & 0xFF) > 0xFF) {
                     flags.setCFlags();
-                    register.writeF(flags.getFlags());
                 }
+                register.writeF(flags.getFlags());
 
                 register.increasePC((short) 2);
                 cycles += 12;
+                break;
+
+            // 0xF9: ld_(nn)_sp
+            // e.g. 0x08 0x00 0x35 LD [$3500],SP
+            // TODO check correctness of opcode
+            case (byte) 0x08:
+                short address = (short) ((operand2 << 8) + operand1);
+                memoryMap.writeDataToAddress(address, (byte) (0xDE45 & 0xFF));
+                memoryMap.writeDataToAddress((short) (address + 1), (byte) ((0xDE45 >> 8) & 0xFF));
+
+                register.increasePC((short) 3);
+                cycles += 20;
+                break;
+
+            // 0xF5 - 0xE5: push_nn
+            case (byte) 0xF5:
+                register.decrementSP();
+                register.decrementSP();
+                register.writeSP(register.readAF());
+                register.increasePC((short) 1);
+                cycles += 16;
+                break;
+            case (byte) 0xC5:
+                register.decrementSP();
+                register.decrementSP();
+                register.writeSP(register.readBC());
+                register.increasePC((short) 1);
+                cycles += 16;
+                break;
+            case (byte) 0xD5:
+                register.decrementSP();
+                register.decrementSP();
+                register.writeSP(register.readDE());
+                register.increasePC((short) 1);
+                cycles += 16;
+                break;
+            case (byte) 0xE5:
+                register.decrementSP();
+                register.decrementSP();
+                register.writeSP(register.readHL());
+                register.increasePC((short) 1);
+                cycles += 16;
+                break;
+
+            // 0xF1 - 0xE1: pop_nn
+            case (byte) 0xF1:
+                register.writeAF(register.readSP());
+                register.incrementSP();
+                register.incrementSP();
+                register.increasePC((short) 1);
+                cycles += 16;
+                break;
+            case (byte) 0xC1:
+                register.writeBC(register.readSP());
+                register.incrementSP();
+                register.incrementSP();
+                register.increasePC((short) 1);
+                cycles += 16;
+                break;
+            case (byte) 0xD1:
+                register.writeDE(register.readSP());
+                register.incrementSP();
+                register.incrementSP();
+                register.increasePC((short) 1);
+                cycles += 16;
+                break;
+            case (byte) 0xE1:
+                register.writeHL(register.readSP());
+                register.incrementSP();
+                register.incrementSP();
+                register.increasePC((short) 1);
+                cycles += 16;
                 break;
 
 

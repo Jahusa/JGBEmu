@@ -146,4 +146,12 @@ class Registers {
 	public void increasePC(short count) {
 		this.registerPC += count;
 	}
+
+	public void incrementSP() {
+		this.registerSP++;
+	}
+
+	public void decrementSP() {
+		this.registerSP--;
+	}
 }
